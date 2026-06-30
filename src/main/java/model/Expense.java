@@ -45,6 +45,10 @@ public class Expense {
         return date;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -65,12 +69,11 @@ public class Expense {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Expense expense = (Expense) o;
-        return Objects.equals(id, expense.id) && category == expense.category;
+        return Objects.equals(id, expense.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, category);
+        return Objects.hashCode(id);
     }
-        
 }
