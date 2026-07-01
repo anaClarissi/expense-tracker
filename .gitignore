@@ -3,7 +3,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
-.docx
+.~lock.expense_tracker_documento_tecnico.docx#
+expense_tracker_documento_tecnico.docx
+src/main/java/Test.java
+expenses.json
 
 ### IntelliJ IDEA ###
 .idea/

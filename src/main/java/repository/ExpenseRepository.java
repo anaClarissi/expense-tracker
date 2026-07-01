@@ -11,10 +11,10 @@ public interface ExpenseRepository {
 
     Optional<Expense> update(Long id, Expense expense);
 
-    Optional<Expense> delete(Long id);
+    void delete(Long id);
 
     List<Expense> findAll();
 
-    Optional<Expense> findById(Long id);
+    Expense findById(Long id);
 
 }
