@@ -76,4 +76,15 @@ public class Expense {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", amount=" + amount +
+                ", category=" + category +
+                ", date=" + date +
+                '}';
+    }
 }
