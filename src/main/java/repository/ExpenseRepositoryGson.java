@@ -23,6 +23,8 @@ public class ExpenseRepositoryGson implements ExpenseRepository {
 
         this.fileName = fileName;
 
+        initFile(fileName);
+
     }
 
     private void initFile (String fileName) {
@@ -46,8 +48,6 @@ public class ExpenseRepositoryGson implements ExpenseRepository {
     }
 
     public void saveAll(List<Expense> list) {
-
-        initFile(fileName);
 
         StringBuilder expenseString = new StringBuilder();
 
@@ -90,7 +90,7 @@ public class ExpenseRepositoryGson implements ExpenseRepository {
     @Override
     public Expense add(Expense expense) {
 
-        List<Expense> list = new ArrayList<>();
+        List<Expense> list = findAll();
 
         list.add(expense);
 
@@ -101,19 +101,67 @@ public class ExpenseRepositoryGson implements ExpenseRepository {
     }
 
     @Override
-    public Optional<Expense> update(Long id, Expense expense) {
-        return Optional.empty();
+    public Expense update(Long id, Expense expense) {
+
+        try {
+
+            List<Expense> list = findAll();
+
+            Expense expenseOptional = findById(id, list);
+
+            String description = expense.getDescription();
+
+            Double amount = expense.getAmount();
+
+            Category category = expense.getCategory();
+
+            LocalDate date = expense.getDate();
+
+            expenseOptional.setDescription(description);
+
+            expenseOptional.setAmount(amount);
+
+            expenseOptional.setCategory(category);
+
+            expenseOptional.setDate(date);
+
+            saveAll(list);
+
+            return expenseOptional;
+
+
+        } catch (RuntimeException e) {
+
+            throw new RuntimeException("Error update Expense: ", e);
+
+        }
+
     }
 
     @Override
     public void delete(Long id) {
 
+        try {
+
+            List<Expense> list = findAll();
+
+            boolean removed = list.removeIf(obj -> obj.getId().equals(id));
+
+            if (!removed) throw new RuntimeException("Expense not found");
+
+            saveAll(list);
+
+
+        } catch (RuntimeException e) {
+
+            throw new RuntimeException("Error deleting by id: ", e);
+
+        }
+
     }
 
     @Override
     public List<Expense> findAll() {
-
-        initFile(fileName);
 
         try {
 
@@ -181,11 +229,11 @@ public class ExpenseRepositoryGson implements ExpenseRepository {
     }
 
     @Override
-    public Expense findById(Long id) {
+    public Expense findById(Long id, List<Expense> list) {
 
-        Expense expense = findAll().stream().filter(obj -> obj.getId().equals(id)).findAny().orElseThrow(() -> new RuntimeException("Id Inválid"));
+        Optional<Expense> expense = list.stream().filter(obj -> obj.getId().equals(id)).findAny();
 
-        return expense;
+        return expense.orElseThrow(() -> new RuntimeException("Error finding Id"));
 
     }
 }
