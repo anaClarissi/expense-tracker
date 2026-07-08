@@ -114,9 +114,9 @@ public class ExpenseService {
 
     private String checkDescription(String description) {
 
-        if (description.isEmpty()) throw new RuntimeException("Description is Empty.");
-
         if (description == null) throw new RuntimeException("Invalid Description.");
+
+        if (description.isBlank()) throw new RuntimeException("Description is Empty.");
 
         return description;
 
@@ -124,9 +124,9 @@ public class ExpenseService {
 
     private Double checkAmount(Double amount) {
 
-        if (amount < 0) throw new RuntimeException("Negative amount");
-
         if (amount == null) throw new RuntimeException("Invalid amount");
+
+        if (amount <= 0) throw new RuntimeException("Negative amount");
 
         return amount;
 
