@@ -7,6 +7,7 @@ target/
 expense_tracker_documento_tecnico.docx
 src/main/java/Test.java
 expenses.json
+dependency-reduced-pom.xml
 
 ### IntelliJ IDEA ###
 .idea/
