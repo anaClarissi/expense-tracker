@@ -30,7 +30,18 @@ public class Main implements Runnable {
 
         Locale.setDefault(Locale.US);
 
-        int code = new CommandLine(new Main()).execute(args);
+        int code = new CommandLine(new Main())
+                .setParameterExceptionHandler((exception, arguments) -> {
+
+                    String message = exception.getCause() != null
+                            ? exception.getCause().getMessage()
+                            : exception.getMessage();
+
+                    System.out.println("Error: " + message);
+
+                    return 1;
+
+                }).execute(args);
 
         System.exit(code);
 
