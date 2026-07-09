@@ -2,6 +2,7 @@ package service;
 
 import exceptions.ExpenseNotFoundException;
 import exceptions.InvalidAmountException;
+import exceptions.InvalidCategoryException;
 import exceptions.InvalidDescriptionException;
 import model.Category;
 import model.Expense;
@@ -37,6 +38,14 @@ public class ExpenseService {
 
             return repository.add(expense);
 
+        } catch (InvalidAmountException e) {
+
+            throw new InvalidAmountException();
+
+        } catch (InvalidDescriptionException e) {
+
+            throw new InvalidDescriptionException();
+
         } catch (RuntimeException e) {
 
             throw new RuntimeException("Error: ", e);
@@ -66,6 +75,14 @@ public class ExpenseService {
             expense.setDate(LocalDate.now());
 
             return repository.update(id, expense);
+
+        } catch (InvalidAmountException e) {
+
+            throw new InvalidAmountException();
+
+        } catch (InvalidDescriptionException e) {
+
+            throw new InvalidDescriptionException();
 
         } catch (RuntimeException e) {
 
@@ -117,7 +134,7 @@ public class ExpenseService {
 
     private String checkDescription(String description) {
 
-        if (description == null) throw new RuntimeException("Invalid Description.");
+        if (description == null) throw new InvalidDescriptionException();
 
         if (description.isBlank()) throw new InvalidDescriptionException();
 
