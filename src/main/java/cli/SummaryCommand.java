@@ -1,5 +1,6 @@
 package cli;
 
+import exceptions.InvalidMonthException;
 import picocli.CommandLine;
 import service.SummaryService;
 
@@ -20,13 +21,7 @@ public class SummaryCommand implements Runnable{
 
             if (month != null) {
 
-                if (month < 1 || month > 12) {
-
-                    System.out.println("Error: Invalid month. Use a value between 1 and 12.");
-
-                    return;
-
-                }
+                if (month < 1 || month > 12) throw new InvalidMonthException();
 
                 Double total = service.findByMonth(month);
 
@@ -44,7 +39,7 @@ public class SummaryCommand implements Runnable{
 
         } catch (RuntimeException e) {
 
-            System.out.println("Error: " + e.getCause().getMessage());
+            System.out.println("Error: " + e.getMessage());
 
         }
 

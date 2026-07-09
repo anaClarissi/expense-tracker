@@ -1,5 +1,8 @@
 package service;
 
+import exceptions.ExpenseNotFoundException;
+import exceptions.InvalidAmountException;
+import exceptions.InvalidDescriptionException;
 import model.Category;
 import model.Expense;
 import repository.ExpenseRepository;
@@ -92,15 +95,15 @@ public class ExpenseService {
 
     public Expense findById(Long id) {
 
-        try {
+        if (id == null) throw new RuntimeException("Id Inválid");
 
-            if (id == null) throw new RuntimeException("Id Inválid");
+        try {
 
             return repository.findById(id, findAll());
 
         } catch (RuntimeException e) {
 
-            throw new RuntimeException("Error: ", e);
+            throw new ExpenseNotFoundException(id);
 
         }
 
@@ -116,7 +119,7 @@ public class ExpenseService {
 
         if (description == null) throw new RuntimeException("Invalid Description.");
 
-        if (description.isBlank()) throw new RuntimeException("Description is Empty.");
+        if (description.isBlank()) throw new InvalidDescriptionException();
 
         return description;
 
@@ -126,7 +129,7 @@ public class ExpenseService {
 
         if (amount == null) throw new RuntimeException("Invalid amount");
 
-        if (amount <= 0) throw new RuntimeException("Negative amount");
+        if (amount <= 0) throw new InvalidAmountException();
 
         return amount;
 
